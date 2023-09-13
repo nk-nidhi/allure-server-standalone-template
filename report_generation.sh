@@ -2,6 +2,7 @@
 
 # This directory is where our local results are stored and it is generally named as `allure-results`
 ALLURE_RESULTS_DIRECTORY='allure-results'
+
 # This url is where the Allure container is deployed. Use `localhost` when allure server is running in local
 ALLURE_SERVER='http://localhost:5050'
 
@@ -21,6 +22,8 @@ for FILE in $FILES_TO_SEND; do
 done
 
 set -o xtrace
-echo "------------------SEND-RESULTS------------------"
+echo "------------------CLEAN-RESULTS------------------"
 curl -X GET "$ALLURE_SERVER/allure-docker-service/clean-results?project_id=$PROJECT_ID"
+
+echo "------------------SEND-RESULTS------------------"
 curl -X POST "$ALLURE_SERVER/allure-docker-service/send-results?project_id=$PROJECT_ID" -H 'Content-Type: multipart/form-data' $FILES -ik
